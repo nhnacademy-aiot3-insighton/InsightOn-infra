@@ -2,6 +2,7 @@
 set -e
 
 INFRA_DIR=~/insighton-infra
+ENV_FILE="$INFRA_DIR/.env"
 LOCK_FILE="$INFRA_DIR/.deploy.lock"
 
 deploy_replica() {
@@ -11,6 +12,9 @@ deploy_replica() {
 
   (
     flock -x 200
+
+    echo "EUREKA_USERNAME=$EUREKA_USERNAME" > "$ENV_FILE"
+    echo "EUREKA_PASSWORD=$EUREKA_PASSWORD" >> "$ENV_FILE"
 
     cd "$INFRA_DIR"
     docker compose pull "$name"

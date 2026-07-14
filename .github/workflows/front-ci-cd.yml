@@ -14,8 +14,6 @@ on:
         required: true
       PAT_USERNAME:
         required: true
-      CONFIG_REPO_TOKEN:
-        required: true
       EUREKA_USERNAME:
         required: true
       EUREKA_PASSWORD:
@@ -89,13 +87,10 @@ jobs:
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
 
             rm -rf ~/insighton-infra
-            git clone https://${{ secrets.PAT_USERNAME }}:${{ secrets.CONFIG_REPO_TOKEN }}@github.com/nhnacademy-aiot3-insighton/InsightOn-infra.git ~/insighton-infra
+            git clone https://github.com/nhnacademy-aiot3-insighton/InsightOn-infra.git ~/insighton-infra
 
-            rm -rf ~/insighton-infra/config
-            git clone https://${{ secrets.PAT_USERNAME }}:${{ secrets.CONFIG_REPO_TOKEN }}@github.com/nhnacademy-aiot3-insighton/InsightOn-config.git ~/insighton-infra/config
-
-            echo "EUREKA_USERNAME=${{ secrets.EUREKA_USERNAME }}" >> ~/insighton-infra/config/front.env
-            echo "EUREKA_PASSWORD=${{ secrets.EUREKA_PASSWORD }}" >> ~/insighton-infra/config/front.env
+            export EUREKA_USERNAME="${{ secrets.EUREKA_USERNAME }}"
+            export EUREKA_PASSWORD="${{ secrets.EUREKA_PASSWORD }}"
 
             chmod +x ~/insighton-infra/scripts/front-deploy.sh
             ~/insighton-infra/scripts/front-deploy.sh
