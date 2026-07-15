@@ -2,6 +2,7 @@ version: "3.9"
 
 networks:
   insighton-net:
+    name: insighton-net
     driver: bridge
 
 services:
