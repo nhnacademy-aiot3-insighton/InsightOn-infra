@@ -14,10 +14,6 @@ on:
         required: true
       PAT_USERNAME:
         required: true
-      EUREKA_USERNAME:
-        required: true
-      EUREKA_PASSWORD:
-        required: true
 
 jobs:
   build-and-test:
@@ -88,9 +84,6 @@ jobs:
 
             rm -rf ~/insighton-infra
             git clone https://github.com/nhnacademy-aiot3-insighton/InsightOn-infra.git ~/insighton-infra
-
-            export EUREKA_USERNAME="${{ secrets.EUREKA_USERNAME }}"
-            export EUREKA_PASSWORD="${{ secrets.EUREKA_PASSWORD }}"
 
             chmod +x ~/insighton-infra/scripts/front-deploy.sh
             ~/insighton-infra/scripts/front-deploy.sh
