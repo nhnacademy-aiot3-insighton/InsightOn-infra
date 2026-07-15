@@ -14,9 +14,9 @@ on:
         required: true
       PAT_USERNAME:
         required: true
-      USERNAME:
+      EUREKA_USERNAME:
         required: true
-      USERPASSWORD:
+      EUREKA_PASSWORD:
         required: true
 
 jobs:
