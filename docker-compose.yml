@@ -1,0 +1,164 @@
+version: "3.9"
+
+networks:
+  insighton-net:
+    driver: bridge
+
+services:
+
+  # Eureka
+  insighton-eureka:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-eureka:latest
+    container_name: insighton-eureka
+    hostname: insighton-eureka
+    networks: [insighton-net]
+    environment:
+      USERNAME: ${EUREKA_USERNAME}
+      USERPASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+
+  # Gateway
+  insighton-gateway-1:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-gateway:latest
+    container_name: insighton-gateway-1
+    hostname: insighton-gateway-1
+    networks: [insighton-net]
+    environment:
+      SPRING_PROFILES_ACTIVE: gateway1
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  insighton-gateway-2:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-gateway:latest
+    container_name: insighton-gateway-2
+    hostname: insighton-gateway-2
+    networks: [insighton-net]
+    environment:
+      SPRING_PROFILES_ACTIVE: gateway2
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  # Front
+  insighton-front-1:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-front:latest
+    container_name: insighton-front-1
+    hostname: insighton-front-1
+    networks: [insighton-net]
+    ports:
+      - "10440:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: front1
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  insighton-front-2:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-front:latest
+    container_name: insighton-front-2
+    hostname: insighton-front-2
+    networks: [insighton-net]
+    ports:
+      - "10441:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: front2
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  # Core
+  insighton-core-1:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-core:latest
+    container_name: insighton-core-1
+    hostname: insighton-core-1
+    networks: [insighton-net]
+    environment:
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  insighton-core-2:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-core:latest
+    container_name: insighton-core-2
+    hostname: insighton-core-2
+    networks: [insighton-net]
+    environment:
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  # Auth
+  insighton-auth-1:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-auth:latest
+    container_name: insighton-auth-1
+    hostname: insighton-auth-1
+    networks: [insighton-net]
+    environment:
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  insighton-auth-2:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-auth:latest
+    container_name: insighton-auth-2
+    hostname: insighton-auth-2
+    networks: [insighton-net]
+    environment:
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  # AI
+  insighton-ai-1:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-ai:latest
+    container_name: insighton-ai-1
+    hostname: insighton-ai-1
+    networks: [insighton-net]
+    environment:
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  insighton-ai-2:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-ai:latest
+    container_name: insighton-ai-2
+    hostname: insighton-ai-2
+    networks: [insighton-net]
+    environment:
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  # RuleEngine
+  insighton-ruleengine-1:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-ruleengine:latest
+    container_name: insighton-ruleengine-1
+    hostname: insighton-ruleengine-1
+    networks: [insighton-net]
+    environment:
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]
+
+  insighton-ruleengine-2:
+    image: ghcr.io/nhnacademy-aiot3-insighton/insighton-ruleengine:latest
+    container_name: insighton-ruleengine-2
+    hostname: insighton-ruleengine-2
+    networks: [insighton-net]
+    environment:
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+    restart: unless-stopped
+    depends_on: [insighton-eureka]

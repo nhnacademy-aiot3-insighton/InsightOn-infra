@@ -36,6 +36,7 @@ deploy_replica() {
   ) 200>"$LOCK_FILE"
 }
 
-deploy_replica "insighton-eureka"
+deploy_replica "insighton-ruleengine-1"
+deploy_replica "insighton-ruleengine-2"
 
 echo "Rolling deployment complete!"

@@ -45,7 +45,7 @@ jobs:
 
   build-and-push:
     needs: build-and-test
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refg/heads/dev-deploy')
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -68,8 +68,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghrc.io/nhnacademy-aiot3-insighton/insighton-auth:latest
-            ghrc.io/nhnacademy-aiot3-insighton/insighton-auth:${{ github.sha }}
+            ghcr.io/nhnacademy-aiot3-insighton/insighton-auth:latest
+            ghcr.io/nhnacademy-aiot3-insighton/insighton-auth:${{ github.sha }}
 
   deploy:
     needs: build-and-push
