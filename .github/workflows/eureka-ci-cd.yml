@@ -16,7 +16,7 @@ on:
         required: true
       USERNAME:
         required: true
-      PASSWORD:
+      USERPASSWORD:
         required: true
 
 jobs:
