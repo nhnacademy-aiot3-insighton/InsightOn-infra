@@ -116,6 +116,16 @@ services:
     container_name: insighton-auth-1
     hostname: insighton-auth-1
     networks: [insighton-net]
+    environment:
+      SPRING_PROFILES_ACTIVE: auth1
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DATABASE_1: ${REDIS_DATABASE_1}
+      REDIS_DATABASE_2: ${REDIS_DATABASE_2}
     restart: unless-stopped
     depends_on: [insighton-eureka]
 
@@ -124,6 +134,16 @@ services:
     container_name: insighton-auth-2
     hostname: insighton-auth-2
     networks: [insighton-net]
+    environment:
+      SPRING_PROFILES_ACTIVE: auth1
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DATABASE_1: ${REDIS_DATABASE_1}
+      REDIS_DATABASE_2: ${REDIS_DATABASE_2}
     restart: unless-stopped
     depends_on: [insighton-eureka]
 
