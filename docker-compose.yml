@@ -153,6 +153,12 @@ services:
     container_name: insighton-ai-1
     hostname: insighton-ai-1
     networks: [insighton-net]
+    environment:
+      SPRING_PROFILES_ACTIVE: ai1
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DATABASE: ${REDIS_DATABASE}
     restart: unless-stopped
     depends_on: [insighton-eureka]
 
@@ -161,6 +167,12 @@ services:
     container_name: insighton-ai-2
     hostname: insighton-ai-2
     networks: [insighton-net]
+    environment:
+      SPRING_PROFILES_ACTIVE: ai1
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DATABASE: ${REDIS_DATABASE}
     restart: unless-stopped
     depends_on: [insighton-eureka]
 
