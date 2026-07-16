@@ -14,6 +14,22 @@ on:
         required: true
       PAT_USERNAME:
         required: true
+      DB_URL:
+        required: true
+      DB_USERNAME:
+        required: true
+      DB_PASSWORD:
+        required: true
+      REDIS_HOST:
+        required: true
+      REDIS_PORT:
+        required: true
+      REDIS_PASSWORD:
+        required: true
+      REDIS_DATABASE_1:
+        required: true
+      REDIS_DATABASE_2:
+        required: true
 
 jobs:
   build-and-test:
@@ -84,6 +100,15 @@ jobs:
             
             rm -rf ~/insighton-infra
             git clone https://github.com/nhnacademy-aiot3-insighton/InsightOn-infra.git ~/insighton-infra
+            
+            export DB_URL="${{ secrets.DB_URL }}"
+            export DB_USERNAME="${{ secrets.DB_USERNAME }}"
+            export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+            export REDIS_HOST="${{ secrets.REDIS_HOST }}"
+            export REDIS_PORT="${{ secrets.REDIS_PORT }}"
+            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
+            export REDIS_DATABASE_1="${{ secrets.REDIS_DATABASE_1 }}"
+            export REDIS_DATABASE_2="${{ secrets.REDIS_DATABASE_2 }}"
             
             chmod +x ~/insighton-infra/scripts/auth-deploy.sh
             ~/insighton-infra/scripts/auth-deploy.sh

@@ -2,6 +2,7 @@
 set -e
 
 INFRA_DIR=~/insighton-infra
+ENV_FILE="$INFRA_DIR/.env"
 LOCK_FILE="$INFRA_DIR/.deploy.lock"
 
 deploy_replica() {
@@ -11,6 +12,17 @@ deploy_replica() {
 
   (
     flock -x 200
+
+    cat > "$ENV_FILE" << EOF
+DB_URL=$DB_URL
+DB_USERNAME=$DB_USERNAME
+DB_PASSWORD=$DB_PASSWORD
+REDIS_HOST=$REDIS_HOST
+REDIS_PORT=$REDIS_PORT
+REDIS_PASSWORD=$REDIS_PASSWORD
+REDIS_DATABASE_1=$REDIS_DATABASE_1
+REDIS_DATABASE_2=$REDIS_DATABASE_2
+EOF
 
     cd "$INFRA_DIR"
     docker compose pull "$name"
