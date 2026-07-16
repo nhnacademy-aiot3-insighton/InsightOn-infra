@@ -1,5 +1,3 @@
-version: "3.9"
-
 networks:
   insighton-net:
     name: insighton-net
@@ -21,6 +19,8 @@ services:
     container_name: insighton-gateway-1
     hostname: insighton-gateway-1
     networks: [insighton-net]
+    environment:
+      SPRING_PROFILES_ACTIVE: gateway1
     restart: unless-stopped
     depends_on: [insighton-eureka]
 
@@ -29,6 +29,8 @@ services:
     container_name: insighton-gateway-2
     hostname: insighton-gateway-2
     networks: [insighton-net]
+    environment:
+      SPRING_PROFILES_ACTIVE: gateway2
     restart: unless-stopped
     depends_on: [insighton-eureka]
 
