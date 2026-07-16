@@ -14,7 +14,28 @@ on:
         required: true
       PAT_USERNAME:
         required: true
-
+      DB_URL:
+        required: true
+      DB_USERNAME:
+        required: true
+      DB_PASSWORD:
+        required: true
+      REDIS_HOST:
+        required: true
+      REDIS_PORT:
+        required: true
+      REDIS_PASSWORD:
+        required: true
+      REDIS_DATABASE:
+        required: true
+      RABBITMQ_HOST:
+        required: true
+      RABBITMQ_AMQP_PORT:
+        required: true
+      RABBITMQ_USERNAME:
+        required: true
+      RABBITMQ_PASSWORD:
+        required: true
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -85,5 +106,17 @@ jobs:
             rm -rf ~/insighton-infra
             git clone https://github.com/nhnacademy-aiot3-insighton/InsightOn-infra.git ~/insighton-infra
 
-            chmod +x ~/insighton-infra/scripts/rule-engine-deploy.sh
-            ~/insighton-infra/scripts/rule-engine-deploy.sh
+            export DB_URL="${{ secrets.DB_URL }}"
+            export DB_USERNAME="${{ secrets.DB_USERNAME }}"
+            export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+            export REDIS_HOST="${{ secrets.REDIS_HOST }}"
+            export REDIS_PORT="${{ secrets.REDIS_PORT }}"
+            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
+            export REDIS_DATABASE="${{ secrets.REDIS_DATABASE }}"
+            export RABBITMQ_HOST="${{ secrets.RABBITMQ_HOST }}"
+            export RABBITMQ_AMQP_PORT="${{ secrets.RABBITMQ_AMQP_PORT }}"
+            export RABBITMQ_USERNAME="${{ secrets.RABBITMQ_USERNAME }}"
+            export RABBITMQ_PASSWORD="${{ secrets.RABBITMQ_PASSWORD }}"
+
+            chmod +x ~/insighton-infra/scripts/ruleengine-deploy.sh
+            ~/insighton-infra/scripts/ruleengine-deploy.sh
