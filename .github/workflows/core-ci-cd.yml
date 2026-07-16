@@ -24,6 +24,8 @@ on:
         required: true
       REDIS_PORT:
         required: true
+      REDIS_PASSWORD:
+        required: true
       REDIS_DATABASE:
         required: true
       RABBITMQ_HOST:
@@ -117,6 +119,7 @@ jobs:
             export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
             export REDIS_HOST="${{ secrets.REDIS_HOST }}"
             export REDIS_PORT="${{ secrets.REDIS_PORT }}"
+            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
             export REDIS_DATABASE="${{ secrets.REDIS_DATABASE }}"
             export RABBITMQ_HOST="${{ secrets.RABBITMQ_HOST }}"
             export RABBITMQ_AMQP_PORT="${{ secrets.RABBITMQ_AMQP_PORT }}"
