@@ -82,8 +82,4 @@ jobs:
           script: |
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
 
-            rm -rf ~/insighton-infra
-            git clone https://github.com/nhnacademy-aiot3-insighton/InsightOn-infra.git ~/insighton-infra
-
-            chmod +x ~/insighton-infra/scripts/eureka-deploy.sh
-            ~/insighton-infra/scripts/eureka-deploy.sh
+            ~/deploy-scripts/deploy-entrypoint.sh eureka-deploy.sh

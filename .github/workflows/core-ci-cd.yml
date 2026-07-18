@@ -111,9 +111,6 @@ jobs:
           script: |
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
 
-            rm -rf ~/insighton-infra
-            git clone https://github.com/nhnacademy-aiot3-insighton/InsightOn-infra.git ~/insighton-infra
-            
             export DB_URL="${{ secrets.DB_URL }}"
             export DB_USERNAME="${{ secrets.DB_USERNAME }}"
             export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
@@ -130,5 +127,4 @@ jobs:
             export INFLUXDB_BUCKET="${{ secrets.INFLUXDB_BUCKET }}"
             export INFLUXDB_TOKEN="${{ secrets.INFLUXDB_TOKEN }}"
 
-            chmod +x ~/insighton-infra/scripts/core-deploy.sh
-            ~/insighton-infra/scripts/core-deploy.sh
+            ~/deploy-scripts/deploy-entrypoint.sh core-deploy.sh

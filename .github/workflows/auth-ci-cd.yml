@@ -97,10 +97,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
-            
-            rm -rf ~/insighton-infra
-            git clone https://github.com/nhnacademy-aiot3-insighton/InsightOn-infra.git ~/insighton-infra
-            
+
             export DB_URL="${{ secrets.DB_URL }}"
             export DB_USERNAME="${{ secrets.DB_USERNAME }}"
             export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
@@ -109,6 +106,5 @@ jobs:
             export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
             export REDIS_DATABASE_1="${{ secrets.REDIS_DATABASE_1 }}"
             export REDIS_DATABASE_2="${{ secrets.REDIS_DATABASE_2 }}"
-            
-            chmod +x ~/insighton-infra/scripts/auth-deploy.sh
-            ~/insighton-infra/scripts/auth-deploy.sh
+
+            ~/deploy-scripts/deploy-entrypoint.sh auth-deploy.sh
