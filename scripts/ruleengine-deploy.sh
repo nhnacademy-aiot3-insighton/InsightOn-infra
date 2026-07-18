@@ -2,6 +2,7 @@
 set -e
 
 INFRA_DIR=~/insighton-infra
+ENV_FILE="$INFRA_DIR/.env"
 LOCK_FILE="$INFRA_DIR/.deploy.lock"
 
 deploy_replica() {
