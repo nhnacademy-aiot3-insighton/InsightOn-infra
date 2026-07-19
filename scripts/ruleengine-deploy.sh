@@ -10,7 +10,7 @@ wait_healthy() {
   for i in $(seq 1 30); do
     status=$(docker inspect --format='{{.State.Health.Status}}' "$name" 2>/dev/null || echo "starting")
     if [ "$status" = "healthy" ]; then
-      echo "$name is health (attempt $i)"
+      echo "$name is healthy (attempt $i)"
       return 0
     fi
       sleep 2

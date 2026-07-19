@@ -12,6 +12,11 @@ services:
     hostname: insighton-eureka
     networks: [insighton-net]
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Gateway
   insighton-gateway-1:
@@ -23,6 +28,11 @@ services:
       SPRING_PROFILES_ACTIVE: gateway1
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   insighton-gateway-2:
     image: ghcr.io/nhnacademy-aiot3-insighton/insighton-gateway:latest
@@ -33,6 +43,11 @@ services:
       SPRING_PROFILES_ACTIVE: gateway2
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Front
   insighton-front-1:
@@ -46,6 +61,11 @@ services:
       SPRING_PROFILES_ACTIVE: front1
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   insighton-front-2:
     image: ghcr.io/nhnacademy-aiot3-insighton/insighton-front:latest
@@ -58,6 +78,11 @@ services:
       SPRING_PROFILES_ACTIVE: front2
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Core
   insighton-core-1:
@@ -84,6 +109,11 @@ services:
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   insighton-core-2:
     image: ghcr.io/nhnacademy-aiot3-insighton/insighton-core:latest
@@ -109,6 +139,11 @@ services:
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Auth
   insighton-auth-1:
@@ -128,6 +163,11 @@ services:
       REDIS_DATABASE_2: ${REDIS_DATABASE_2}
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   insighton-auth-2:
     image: ghcr.io/nhnacademy-aiot3-insighton/insighton-auth:latest
@@ -146,6 +186,11 @@ services:
       REDIS_DATABASE_2: ${REDIS_DATABASE_2}
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # AI
   insighton-ai-1:
@@ -161,6 +206,11 @@ services:
       REDIS_DATABASE: ${REDIS_DATABASE}
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   insighton-ai-2:
     image: ghcr.io/nhnacademy-aiot3-insighton/insighton-ai:latest
@@ -175,6 +225,11 @@ services:
       REDIS_DATABASE: ${REDIS_DATABASE}
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # RuleEngine
   insighton-ruleengine-1:
@@ -197,6 +252,11 @@ services:
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   insighton-ruleengine-2:
     image: ghcr.io/nhnacademy-aiot3-insighton/insighton-ruleengine:latest
@@ -218,3 +278,8 @@ services:
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     restart: unless-stopped
     depends_on: [insighton-eureka]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
