@@ -44,6 +44,8 @@ INFLUXDB_BUCKET=$INFLUXDB_BUCKET
 INFLUXDB_TOKEN=$INFLUXDB_TOKEN
 EOF
 
+    chmod 600 "$ENV_FILE"
+
     cd "$INFRA_DIR"
 
     OLD_IMAGE_ID=$(docker inspect --format='{{.Image}}' "$name" 2>/dev/null || echo "")
