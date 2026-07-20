@@ -161,15 +161,29 @@ jobs:
             export INFLUXDB_ORG="${{ secrets.INFLUXDB_ORG }}"
             export INFLUXDB_BUCKET="${{ secrets.INFLUXDB_BUCKET }}"
             export INFLUXDB_TOKEN="${{ secrets.INFLUXDB_TOKEN }}"
-          
-            echo "===== SECRET HASH CHECK ====="
-            for name in CONFIG_GITHUB_USERNAME CONFIG_GITHUB_TOKEN CONFIG_REPO_URI CONFIG_SERVER_USERNAME CONFIG_SERVER_PASSWORD DB_URL DB_USERNAME DB_PASSWORD REDIS_HOST REDIS_PORT REDIS_PASSWORD RABBITMQ_HOST RABBITMQ_AMQP_PORT RABBITMQ_USERNAME RABBITMQ_PASSWORD INFLUXDB_URL INFLUXDB_ORG INFLUXDB_BUCKET INFLUXDB_TOKEN; do
-              eval "val=\${$name}"
-              hash=$(echo -n "$val" | sha256sum | cut -d' ' -f1)
-              len=${#val}
-              echo "$name  len=$len  sha256=$hash"
-            done
-            echo "=============================="
-          
+
+            echo "===== RAW VALUE CHECK ====="
+            echo "CONFIG_GITHUB_USERNAME=[$CONFIG_GITHUB_USERNAME]"
+            echo "CONFIG_GITHUB_TOKEN=[$CONFIG_GITHUB_TOKEN]"
+            echo "CONFIG_REPO_URI=[$CONFIG_REPO_URI]"
+            echo "CONFIG_SERVER_USERNAME=[$CONFIG_SERVER_USERNAME]"
+            echo "CONFIG_SERVER_PASSWORD=[$CONFIG_SERVER_PASSWORD]"
+            echo "DB_URL=[$DB_URL]"
+            echo "DB_USERNAME=[$DB_USERNAME]"
+            echo "DB_PASSWORD=[$DB_PASSWORD]"
+            echo "REDIS_HOST=[$REDIS_HOST]"
+            echo "REDIS_PORT=[$REDIS_PORT]"
+            echo "REDIS_PASSWORD=[$REDIS_PASSWORD]"
+            echo "RABBITMQ_HOST=[$RABBITMQ_HOST]"
+            echo "RABBITMQ_AMQP_PORT=[$RABBITMQ_AMQP_PORT]"
+            echo "RABBITMQ_USERNAME=[$RABBITMQ_USERNAME]"
+            echo "RABBITMQ_PASSWORD=[$RABBITMQ_PASSWORD]"
+            echo "INFLUXDB_URL=[$INFLUXDB_URL]"
+            echo "INFLUXDB_ORG=[$INFLUXDB_ORG]"
+            echo "INFLUXDB_BUCKET=[$INFLUXDB_BUCKET]"
+            echo "INFLUXDB_TOKEN=[$INFLUXDB_TOKEN]"
+            echo "==========================="
+
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
+
             ~/deploy-scripts/deploy-entrypoint.sh config-deploy.sh
