@@ -1,0 +1,54 @@
+networks:
+  insighton-net:
+    external: true
+
+services:
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.15.3
+    container_name: insighton-filebeat
+    hostname: insighton-filebeat
+    networks: [insighton-net]
+    user: root
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    environment:
+      ELASTIC_HOST: ${ELASTIC_HOST}
+      ELASTIC_PORT: ${ELASTIC_PORT}
+      ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: insighton-grafana
+    hostname: insighton-grafana
+    networks: [insighton-net]
+    ports:
+      - "127.0.0.1:10457:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    environment:
+      GF_SERVER_ROOT_URL: "https://insighton.store/grafana/"
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+
+volumes:
+  grafana-data:
+    external: true
+    name: monitoring_grafana-data

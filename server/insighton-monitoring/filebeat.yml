@@ -1,0 +1,22 @@
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+      templates:
+        - condition:
+            contains:
+              docker.container.name: "insighton-"
+          config:
+            - type: container
+              paths:
+                - "/var/lib/docker/containers/${data.docker.container.id}/*.log"
+
+output.elasticsearch:
+  hosts: ["${ELASTIC_HOST}:${ELASTIC_PORT}"]
+  username: "${ELASTIC_USERNAME}"
+  password: "${ELASTIC_PASSWORD}"
+  index: "insighton-logs-%{+yyyy.MM.dd}"
+  pipeline: "insighton-log-parse"
+
+setup.template.enabled: false
+setup.ilm.enabled: false

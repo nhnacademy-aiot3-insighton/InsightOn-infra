@@ -5,6 +5,37 @@ networks:
 
 services:
 
+  insighton-config:
+      image: ghcr.io/nhnacademy-aiot3-insighton/insighton-config:latest
+      container_name: insighton-config
+      hostname: insighton-config
+      networks: [insighton-net]
+      environment:
+        CONFIG_REPO_URI: ${CONFIG_REPO_URI}
+        CONFIG_REPO_BRANCH: ${CONFIG_REPO_BRANCH}
+        CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+        CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
+        DB_URL: ${DB_URL}
+        DB_USERNAME: ${DB_USERNAME}
+        DB_PASSWORD: ${DB_PASSWORD}
+        REDIS_HOST: ${REDIS_HOST}
+        REDIS_PORT: ${REDIS_PORT}
+        REDIS_PASSWORD: ${REDIS_PASSWORD}
+        RABBITMQ_HOST: ${RABBITMQ_HOST}
+        RABBITMQ_AMQP_PORT: ${RABBITMQ_AMQP_PORT}
+        RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
+        RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+        INFLUXDB_URL: ${INFLUXDB_URL}
+        INFLUXDB_ORG: ${INFLUXDB_ORG}
+        INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
+        INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      restart: unless-stopped
+      logging:
+        driver: json-file
+        options:
+          max-size: "10m"
+          max-file: "3"
+
   # Eureka
   insighton-eureka:
     image: ghcr.io/nhnacademy-aiot3-insighton/insighton-eureka:latest

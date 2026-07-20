@@ -1,0 +1,140 @@
+name: Config CI/CD
+on:
+  workflow_call:
+    secrets:
+      SSH_HOST:
+        required: true
+      SSH_USER:
+        required: true
+      SSH_PORT:
+        required: true
+      SSH_PRIVATE_KEY:
+        required: true
+      PAT_READ_PACKAGES:
+        required: true
+      PAT_USERNAME:
+        required: true
+      CONFIG_REPO_URI:
+        required: true
+      CONFIG_REPO_BRANCH:
+        required: true
+      CONFIG_SERVER_USERNAME:
+        required: true
+      CONFIG_SERVER_PASSWORD:
+        required: true
+      DB_URL:
+        required: true
+      DB_USERNAME:
+        required: true
+      DB_PASSWORD:
+        required: true
+      REDIS_HOST:
+        required: true
+      REDIS_PORT:
+        required: true
+      REDIS_PASSWORD:
+        required: true
+      RABBITMQ_HOST:
+        required: true
+      RABBITMQ_AMQP_PORT:
+        required: true
+      RABBITMQ_USERNAME:
+        required: true
+      RABBITMQ_PASSWORD:
+        required: true
+      INFLUXDB_URL:
+        required: true
+      INFLUXDB_ORG:
+        required: true
+      INFLUXDB_BUCKET:
+        required: true
+      INFLUXDB_TOKEN:
+        required: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+
+      - name: JDK 21 Install
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Maven Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build and Test
+        run: mvn -B --no-transfer-progress clean verify
+
+  build-and-push:
+    needs: build-and-test
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+
+      - name: GHCR Login
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker Image Build and Push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/nhnacademy-aiot3-insighton/insighton-config:latest
+            ghcr.io/nhnacademy-aiot3-insighton/insighton-config:${{ github.sha }}
+
+  deploy:
+    needs: build-and-push
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')
+    runs-on: ubuntu-latest
+    steps:
+      - name: server ssh compose rolling deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
+
+            export CONFIG_REPO_URI="${{ secrets.CONFIG_REPO_URI }}"
+            export CONFIG_REPO_BRANCH="${{ secrets.CONFIG_REPO_BRANCH }}"
+            export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
+            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
+            export DB_URL="${{ secrets.DB_URL }}"
+            export DB_USERNAME="${{ secrets.DB_USERNAME }}"
+            export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+            export REDIS_HOST="${{ secrets.REDIS_HOST }}"
+            export REDIS_PORT="${{ secrets.REDIS_PORT }}"
+            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
+            export RABBITMQ_HOST="${{ secrets.RABBITMQ_HOST }}"
+            export RABBITMQ_AMQP_PORT="${{ secrets.RABBITMQ_AMQP_PORT }}"
+            export RABBITMQ_USERNAME="${{ secrets.RABBITMQ_USERNAME }}"
+            export RABBITMQ_PASSWORD="${{ secrets.RABBITMQ_PASSWORD }}"
+            export INFLUXDB_URL="${{ secrets.INFLUXDB_URL }}"
+            export INFLUXDB_ORG="${{ secrets.INFLUXDB_ORG }}"
+            export INFLUXDB_BUCKET="${{ secrets.INFLUXDB_BUCKET }}"
+            export INFLUXDB_TOKEN="${{ secrets.INFLUXDB_TOKEN }}"
+
+            ~/deploy-scripts/deploy-entrypoint.sh config-deploy.sh
