@@ -117,9 +117,31 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          script: |
+#            echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
+#
+#            export CONFIG_GITHUB_USERNAME="${{ secrets.CONFIG_GITHUB_USERNAME }}"
+#            export CONFIG_GITHUB_TOKEN="${{ secrets.CONFIG_GITHUB_TOKEN }}"
+#            export CONFIG_REPO_URI="${{ secrets.CONFIG_REPO_URI }}"
+#            export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
+#            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
+#            export DB_URL="${{ secrets.DB_URL }}"
+#            export DB_USERNAME="${{ secrets.DB_USERNAME }}"
+#            export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+#            export REDIS_HOST="${{ secrets.REDIS_HOST }}"
+#            export REDIS_PORT="${{ secrets.REDIS_PORT }}"
+#            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
+#            export RABBITMQ_HOST="${{ secrets.RABBITMQ_HOST }}"
+#            export RABBITMQ_AMQP_PORT="${{ secrets.RABBITMQ_AMQP_PORT }}"
+#            export RABBITMQ_USERNAME="${{ secrets.RABBITMQ_USERNAME }}"
+#            export RABBITMQ_PASSWORD="${{ secrets.RABBITMQ_PASSWORD }}"
+#            export INFLUXDB_URL="${{ secrets.INFLUXDB_URL }}"
+#            export INFLUXDB_ORG="${{ secrets.INFLUXDB_ORG }}"
+#            export INFLUXDB_BUCKET="${{ secrets.INFLUXDB_BUCKET }}"
+#            export INFLUXDB_TOKEN="${{ secrets.INFLUXDB_TOKEN }}"
+#
+#            ~/deploy-scripts/deploy-entrypoint.sh config-deploy.sh
           script: |
-            echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
-
             export CONFIG_GITHUB_USERNAME="${{ secrets.CONFIG_GITHUB_USERNAME }}"
             export CONFIG_GITHUB_TOKEN="${{ secrets.CONFIG_GITHUB_TOKEN }}"
             export CONFIG_REPO_URI="${{ secrets.CONFIG_REPO_URI }}"
@@ -139,5 +161,15 @@ jobs:
             export INFLUXDB_ORG="${{ secrets.INFLUXDB_ORG }}"
             export INFLUXDB_BUCKET="${{ secrets.INFLUXDB_BUCKET }}"
             export INFLUXDB_TOKEN="${{ secrets.INFLUXDB_TOKEN }}"
-
+          
+            echo "===== SECRET HASH CHECK ====="
+            for name in CONFIG_GITHUB_USERNAME CONFIG_GITHUB_TOKEN CONFIG_REPO_URI CONFIG_SERVER_USERNAME CONFIG_SERVER_PASSWORD DB_URL DB_USERNAME DB_PASSWORD REDIS_HOST REDIS_PORT REDIS_PASSWORD RABBITMQ_HOST RABBITMQ_AMQP_PORT RABBITMQ_USERNAME RABBITMQ_PASSWORD INFLUXDB_URL INFLUXDB_ORG INFLUXDB_BUCKET INFLUXDB_TOKEN; do
+              eval "val=\${$name}"
+              hash=$(echo -n "$val" | sha256sum | cut -d' ' -f1)
+              len=${#val}
+              echo "$name  len=$len  sha256=$hash"
+            done
+            echo "=============================="
+          
+            echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
             ~/deploy-scripts/deploy-entrypoint.sh config-deploy.sh
