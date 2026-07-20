@@ -14,6 +14,10 @@ on:
         required: true
       PAT_USERNAME:
         required: true
+      CONFIG_GITHUB_USERNAME:
+          required: true
+      CONFIG_GITHUB_TOKEN:
+          required: true
       CONFIG_REPO_URI:
         required: true
       CONFIG_SERVER_USERNAME:
@@ -116,6 +120,8 @@ jobs:
           script: |
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
 
+            export CONFIG_GITHUB_USERNAME="${{ secrets.CONFIG_GITHUB_USERNAME }}"
+            export CONFIG_GITHUB_TOKEN="${{ secrets.CONFIG_GITHUB_TOKEN }}"
             export CONFIG_REPO_URI="${{ secrets.CONFIG_REPO_URI }}"
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
             export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
