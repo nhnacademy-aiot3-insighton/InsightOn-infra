@@ -26,19 +26,10 @@ deploy_replica() {
   (
     flock -x 200
 
-    cat > "$ENV_FILE" << EOF
-DB_URL=$DB_URL
-DB_USERNAME=$DB_USERNAME
-DB_PASSWORD=$DB_PASSWORD
-REDIS_HOST=$REDIS_HOST
-REDIS_PORT=$REDIS_PORT
-REDIS_PASSWORD=$REDIS_PASSWORD
-REDIS_DATABASE=$REDIS_DATABASE
-RABBITMQ_HOST=$RABBITMQ_HOST
-RABBITMQ_AMQP_PORT=$RABBITMQ_AMQP_PORT
-RABBITMQ_USERNAME=$RABBITMQ_USERNAME
-RABBITMQ_PASSWORD=$RABBITMQ_PASSWORD
-EOF
+    cat > "$ENV_FILE" << ENVEOF
+CONFIG_SERVER_USERNAME=$CONFIG_SERVER_USERNAME
+CONFIG_SERVER_PASSWORD=$CONFIG_SERVER_PASSWORD
+ENVEOF
 
     chmod 600 "$ENV_FILE"
 
@@ -54,7 +45,7 @@ EOF
       exit 0
     fi
 
-    echo "$name failed healthy check!"
+    echo "$name failed health check!"
 
     if [ -z "$OLD_IMAGE_ID" ]; then
       echo "No previous image record found, rollback not possible (presumed to be the initial deployment). Deployment failed and terminated."

@@ -12,7 +12,6 @@ services:
       networks: [insighton-net]
       environment:
         CONFIG_REPO_URI: ${CONFIG_REPO_URI}
-        CONFIG_REPO_BRANCH: ${CONFIG_REPO_BRANCH}
         CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
         CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
         DB_URL: ${DB_URL}
@@ -123,23 +122,10 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: core1
-      DB_URL: ${DB_URL}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_DATABASE: ${REDIS_DATABASE}
-      RABBITMQ_HOST: ${RABBITMQ_HOST}
-      RABBITMQ_AMQP_PORT: ${RABBITMQ_AMQP_PORT}
-      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
-      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-      INFLUXDB_URL: ${INFLUXDB_URL}
-      INFLUXDB_ORG: ${INFLUXDB_ORG}
-      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
-      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
-    depends_on: [insighton-eureka]
+    depends_on: [insighton-eureka, insighton-config]
     logging:
       driver: json-file
       options:
@@ -153,23 +139,10 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: core2
-      DB_URL: ${DB_URL}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_DATABASE: ${REDIS_DATABASE}
-      RABBITMQ_HOST: ${RABBITMQ_HOST}
-      RABBITMQ_AMQP_PORT: ${RABBITMQ_AMQP_PORT}
-      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
-      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-      INFLUXDB_URL: ${INFLUXDB_URL}
-      INFLUXDB_ORG: ${INFLUXDB_ORG}
-      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
-      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
-    depends_on: [insighton-eureka]
+    depends_on: [insighton-eureka, insighton-config]
     logging:
       driver: json-file
       options:
@@ -184,16 +157,10 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: auth1
-      DB_URL: ${DB_URL}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_DATABASE_1: ${REDIS_DATABASE_1}
-      REDIS_DATABASE_2: ${REDIS_DATABASE_2}
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
-    depends_on: [insighton-eureka]
+    depends_on: [insighton-eureka, insighton-config]
     logging:
       driver: json-file
       options:
@@ -207,16 +174,10 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: auth1
-      DB_URL: ${DB_URL}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_DATABASE_1: ${REDIS_DATABASE_1}
-      REDIS_DATABASE_2: ${REDIS_DATABASE_2}
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
-    depends_on: [insighton-eureka]
+    depends_on: [insighton-eureka, insighton-config]
     logging:
       driver: json-file
       options:
@@ -231,12 +192,10 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: ai1
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_DATABASE: ${REDIS_DATABASE}
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
-    depends_on: [insighton-eureka]
+    depends_on: [insighton-eureka, insighton-config]
     logging:
       driver: json-file
       options:
@@ -250,12 +209,10 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: ai1
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_DATABASE: ${REDIS_DATABASE}
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
-    depends_on: [insighton-eureka]
+    depends_on: [insighton-eureka, insighton-config]
     logging:
       driver: json-file
       options:
@@ -270,19 +227,10 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: ruleengine1
-      DB_URL: ${DB_URL}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_DATABASE: ${REDIS_DATABASE}
-      RABBITMQ_HOST: ${RABBITMQ_HOST}
-      RABBITMQ_AMQP_PORT: ${RABBITMQ_AMQP_PORT}
-      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
-      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
-    depends_on: [insighton-eureka]
+    depends_on: [insighton-eureka, insighton-config]
     logging:
       driver: json-file
       options:
@@ -296,19 +244,10 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: ruleengine1
-      DB_URL: ${DB_URL}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_DATABASE: ${REDIS_DATABASE}
-      RABBITMQ_HOST: ${RABBITMQ_HOST}
-      RABBITMQ_AMQP_PORT: ${RABBITMQ_AMQP_PORT}
-      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
-      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
-    depends_on: [insighton-eureka]
+    depends_on: [insighton-eureka, insighton-config]
     logging:
       driver: json-file
       options:

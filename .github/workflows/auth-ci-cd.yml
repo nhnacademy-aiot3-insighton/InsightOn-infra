@@ -14,21 +14,9 @@ on:
         required: true
       PAT_USERNAME:
         required: true
-      DB_URL:
+      CONFIG_SERVER_USERNAME:
         required: true
-      DB_USERNAME:
-        required: true
-      DB_PASSWORD:
-        required: true
-      REDIS_HOST:
-        required: true
-      REDIS_PORT:
-        required: true
-      REDIS_PASSWORD:
-        required: true
-      REDIS_DATABASE_1:
-        required: true
-      REDIS_DATABASE_2:
+      CONFIG_SERVER_PASSWORD:
         required: true
 
 jobs:
@@ -98,13 +86,7 @@ jobs:
           script: |
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
 
-            export DB_URL="${{ secrets.DB_URL }}"
-            export DB_USERNAME="${{ secrets.DB_USERNAME }}"
-            export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
-            export REDIS_HOST="${{ secrets.REDIS_HOST }}"
-            export REDIS_PORT="${{ secrets.REDIS_PORT }}"
-            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
-            export REDIS_DATABASE_1="${{ secrets.REDIS_DATABASE_1 }}"
-            export REDIS_DATABASE_2="${{ secrets.REDIS_DATABASE_2 }}"
-
+            export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
+            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
+            
             ~/deploy-scripts/deploy-entrypoint.sh auth-deploy.sh

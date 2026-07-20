@@ -16,8 +16,6 @@ on:
         required: true
       CONFIG_REPO_URI:
         required: true
-      CONFIG_REPO_BRANCH:
-        required: true
       CONFIG_SERVER_USERNAME:
         required: true
       CONFIG_SERVER_PASSWORD:
@@ -119,7 +117,6 @@ jobs:
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
 
             export CONFIG_REPO_URI="${{ secrets.CONFIG_REPO_URI }}"
-            export CONFIG_REPO_BRANCH="${{ secrets.CONFIG_REPO_BRANCH }}"
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
             export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
             export DB_URL="${{ secrets.DB_URL }}"
