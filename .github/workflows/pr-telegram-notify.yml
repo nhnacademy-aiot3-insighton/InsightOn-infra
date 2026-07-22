@@ -1,8 +1,7 @@
 name: PR Telegram Notification
 
 on:
-  pull_request:
-    types: [opened, review_requested]
+  workflow_call:
 
 jobs:
   notify:
