@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets: ['s4.java21.net:15692']
+    basic_auth:
+      username: admin
+      password: nhnacademy123!
