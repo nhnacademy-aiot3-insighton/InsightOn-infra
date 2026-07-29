@@ -14,6 +14,10 @@ on:
         required: true
       PAT_USERNAME:
         required: true
+      CONFIG_SERVER_USERNAME:
+        required: true
+      CONFIG_SERVER_PASSWORD:
+        required: true
 
 jobs:
   build-and-test:
@@ -81,5 +85,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
+            
+              export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
+              export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
 
-            ~/deploy-scripts/deploy-entrypoint.sh gateway-deploy.sh
+              ~/deploy-scripts/deploy-entrypoint.sh gateway-deploy.sh

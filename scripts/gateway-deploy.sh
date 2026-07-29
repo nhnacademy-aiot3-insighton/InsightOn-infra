@@ -2,6 +2,7 @@
 set -e
 
 INFRA_DIR=~/insighton-infra
+ENV_FILE="$INFRA_DIR/.env"
 LOCK_FILE="$INFRA_DIR/.deploy.lock"
 
 wait_healthy() {
@@ -24,6 +25,13 @@ deploy_replica() {
 
   (
     flock -x 200
+
+    cat > "$ENV_FILE" << ENVEOF
+CONFIG_SERVER_USERNAME=$CONFIG_SERVER_USERNAME
+CONFIG_SERVER_PASSWORD=$CONFIG_SERVER_PASSWORD
+ENVEOF
+
+    chmod 600 "$ENV_FILE"
 
     cd "$INFRA_DIR"
 
