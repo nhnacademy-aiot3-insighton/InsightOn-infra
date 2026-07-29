@@ -58,6 +58,8 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: gateway1
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
     depends_on: [insighton-eureka]
     logging:
@@ -73,6 +75,8 @@ services:
     networks: [insighton-net]
     environment:
       SPRING_PROFILES_ACTIVE: gateway2
+      CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
+      CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
     restart: unless-stopped
     depends_on: [insighton-eureka]
     logging:
