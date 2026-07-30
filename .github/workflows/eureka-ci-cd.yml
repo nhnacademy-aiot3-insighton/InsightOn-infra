@@ -82,4 +82,4 @@ jobs:
           script: |
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
 
-            ~/deploy-scripts/deploy-entrypoint.sh eureka-deploy.sh
+            ~/deploy-scripts/deploy-entrypoint.sh deploy.sh eureka insighton-eureka

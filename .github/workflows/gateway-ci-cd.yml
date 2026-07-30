@@ -86,7 +86,7 @@ jobs:
           script: |
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
             
-              export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
-              export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
+            export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
+            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
 
-              ~/deploy-scripts/deploy-entrypoint.sh gateway-deploy.sh
+            ~/deploy-scripts/deploy-entrypoint.sh deploy.sh gateway insighton-gateway-1 insighton-gateway-2

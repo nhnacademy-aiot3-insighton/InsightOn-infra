@@ -89,4 +89,4 @@ jobs:
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
             export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
             
-            ~/deploy-scripts/deploy-entrypoint.sh ai-deploy.sh
+            ~/deploy-scripts/deploy-entrypoint.sh deploy.sh ai insighton-ai-1 insighton-ai-2

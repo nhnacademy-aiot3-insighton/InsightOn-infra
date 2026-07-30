@@ -88,4 +88,4 @@ jobs:
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
             export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
 
-            ~/deploy-scripts/deploy-entrypoint.sh core-deploy.sh
+            ~/deploy-scripts/deploy-entrypoint.sh deploy.sh core insighton-core-1 insighton-core-2
