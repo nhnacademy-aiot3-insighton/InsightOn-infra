@@ -100,8 +100,8 @@ jobs:
             export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
             export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
             export GEMINI_API_KEY="${{ secrets.GEMINI_API_KEY }}"
-            export DB_PASSWORD="${{ DB_PASSWORD }}"
-            export RABBITMQ_PASSWORD="${{ RABBITMQ_PASSWORD }}"
-            export INFLUXDB_TOKEN="${{ INFLUXDB_TOKEN }}"
+            export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+            export RABBITMQ_PASSWORD="${{ secrets.RABBITMQ_PASSWORD }}"
+            export INFLUXDB_TOKEN="${{ secrets.INFLUXDB_TOKEN }}"
             
             ~/deploy-scripts/deploy-entrypoint.sh deploy.sh ai insighton-ai-1 insighton-ai-2

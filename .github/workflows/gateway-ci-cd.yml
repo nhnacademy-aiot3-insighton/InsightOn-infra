@@ -18,6 +18,10 @@ on:
         required: true
       CONFIG_SERVER_PASSWORD:
         required: true
+      REDIS_PASSWORD:
+        required: true
+      JWT_PUBLIC_KEY:
+        required: true
 
 jobs:
   build-and-test:
@@ -87,6 +91,8 @@ jobs:
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
             
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
-            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
-
+            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"\
+            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
+            export JWT_PUBLIC_KEY="$"
+            
             ~/deploy-scripts/deploy-entrypoint.sh deploy.sh gateway insighton-gateway-1 insighton-gateway-2

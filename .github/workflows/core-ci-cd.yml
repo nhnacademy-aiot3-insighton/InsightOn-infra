@@ -18,6 +18,18 @@ on:
         required: true
       CONFIG_SERVER_PASSWORD:
         required: true
+      DB_PASSWORD:
+        required: true
+      REDIS_PASSWORD:
+        required: true
+      RABBITMQ_PASSWORD:
+        required: true
+      INFLUXDB_TOKEN:
+        required: true
+      KMA_KEY:
+        required: true
+      AIR_KEY:
+        required: true
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -87,5 +99,11 @@ jobs:
 
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
             export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
+            export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
+            export RABBITMQ_PASSWORD="${{ secrets.RABBITMQ_PASSWORD }}"
+            export INFLUXDB_TOKEN="${{ secrets.INFLUXDB_TOKEN }}"
+            export KMA_KEY="${{ secrets.KMA_KEY }}"
+            export AIR_KEY="${{ secrets.AIR_KEY }}"
 
             ~/deploy-scripts/deploy-entrypoint.sh deploy.sh core insighton-core-1 insighton-core-2

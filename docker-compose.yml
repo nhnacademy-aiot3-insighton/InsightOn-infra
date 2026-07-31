@@ -116,6 +116,12 @@ services:
       SPRING_PROFILES_ACTIVE: core1
       CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
       CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      KMA_KEY: ${KMA_TOKEN}
+      AIR_KEY: ${AIR_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
     logging:
@@ -133,6 +139,12 @@ services:
       SPRING_PROFILES_ACTIVE: core2
       CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
       CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      KMA_KEY: ${KMA_TOKEN}
+      AIR_KEY: ${AIR_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
     logging:
