@@ -11,10 +11,11 @@ LOCK_TIMEOUT=60
 HEALTH_MAX_ATTEMPTS=30
 HEALTH_INTERVAL=2
 
-# ---------- Per-service env var manifest ----------
+# MARK: Per-service env var manifest
+
 declare -A SERVICE_ENV_VARS=(
   [ai]="CONFIG_SERVER_USERNAME CONFIG_SERVER_PASSWORD"
-  [auth]="CONFIG_SERVER_USERNAME CONFIG_SERVER_PASSWORD"
+  [auth]="CONFIG_SERVER_USERNAME CONFIG_SERVER_PASSWORD JWT_PRIVATE_KEY JWT_PUBLIC_KEY"
   [core]="CONFIG_SERVER_USERNAME CONFIG_SERVER_PASSWORD"
   [gateway]="CONFIG_SERVER_USERNAME CONFIG_SERVER_PASSWORD"
   [ruleengine]="CONFIG_SERVER_USERNAME CONFIG_SERVER_PASSWORD"
@@ -26,7 +27,7 @@ declare -A SERVICE_ENV_VARS=(
 log()  { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
 err()  { echo "[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: $*" >&2; }
 
-# ---------- Argument parsing ----------
+# MARK: Argument parsing
 
 if [[ $# -lt 2 ]]; then
   err "Usage: $0 <service-key> <replica-name-1> [replica-name-2 ...]"
@@ -46,7 +47,7 @@ fi
 
 read -ra REQUIRED_VARS <<< "${SERVICE_ENV_VARS[$SERVICE_KEY]}"
 
-# ---------- Pre-flight checks ----------
+# MARK: Pre-flight checks
 
 require_cmd() {
   if ! command -v "$1" >/dev/null 2>&1; then
@@ -98,7 +99,7 @@ if (( EUID == 0 )); then
   log "WARNING: running as root. Consider running this script as a non-root user with docker group access."
 fi
 
-# ---------- Health check ----------
+# MARK: Health check
 
 wait_healthy() {
   local name=$1
@@ -137,7 +138,7 @@ wait_healthy() {
   return 1
 }
 
-# ---------- Diagnostics on failure (secrets-safe) ----------
+# MARK: Diagnostics on failure (secrets-safe)
 
 dump_diagnostics() {
   local name=$1
@@ -147,7 +148,7 @@ dump_diagnostics() {
   log "----------------------------------"
 }
 
-# ---------- Deploy a single replica ----------
+# MARK: Deploy a single replica
 
 deploy_replica() {
   local name=$1
@@ -241,7 +242,7 @@ deploy_replica() {
   ) 200>"$LOCK_FILE"
 }
 
-# ---------- Main ----------
+# MARK: Main
 
 failed_replicas=()
 

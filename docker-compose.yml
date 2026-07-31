@@ -151,6 +151,8 @@ services:
       SPRING_PROFILES_ACTIVE: auth1
       CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
       CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
     logging:
@@ -168,6 +170,8 @@ services:
       SPRING_PROFILES_ACTIVE: auth1
       CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
       CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
     logging:
