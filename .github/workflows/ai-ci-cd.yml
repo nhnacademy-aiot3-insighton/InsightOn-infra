@@ -18,6 +18,16 @@ on:
         required: true
       CONFIG_SERVER_PASSWORD:
         required: true
+      REDIS_PASSWORD:
+        required: true
+      GEMINI_API_KEY:
+        required: true
+      DB_PASSWORD:
+        required: true
+      RABBITMQ_PASSWORD:
+        required: true
+      INFLUXDB_TOKEN:
+        required: true
 
 jobs:
   build-and-test:
@@ -88,5 +98,10 @@ jobs:
 
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
             export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
+            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
+            export GEMINI_API_KEY="${{ secrets.GEMINI_API_KEY }}"
+            export DB_PASSWORD="${{ DB_PASSWORD }}"
+            export RABBITMQ_PASSWORD="${{ RABBITMQ_PASSWORD }}"
+            export INFLUXDB_TOKEN="${{ INFLUXDB_TOKEN }}"
             
             ~/deploy-scripts/deploy-entrypoint.sh deploy.sh ai insighton-ai-1 insighton-ai-2

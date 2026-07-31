@@ -207,6 +207,11 @@ services:
       SPRING_PROFILES_ACTIVE: ai1
       CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
       CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      DB_PASSWORD: ${DB_PASSWORD}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
     logging:
