@@ -18,6 +18,10 @@ on:
         required: true
       CONFIG_SERVER_PASSWORD:
         required: true
+      DB_PASSWORD:
+        required: true
+      REDIS_PASSWORD:
+        required: true
       JWT_PRIVATE_KEY:
         required: true
       JWT_PUBLIC_KEY:
@@ -91,6 +95,8 @@ jobs:
 
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
             export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
+            export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
             export JWT_PRIVATE_KEY="${{ secrets.JWT_PRIVATE_KEY }}"
             export JWT_PUBLIC_KEY="${{ secrets.JWT_PUBLIC_KEY }}"
             
