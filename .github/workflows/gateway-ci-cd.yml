@@ -93,6 +93,6 @@ jobs:
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
             export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"\
             export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
-            export JWT_PUBLIC_KEY="$"
+            export JWT_PUBLIC_KEY="${{ secrets.JWT_PUBLIC_KEY }}"
             
             ~/deploy-scripts/deploy-entrypoint.sh deploy.sh gateway insighton-gateway-1 insighton-gateway-2
