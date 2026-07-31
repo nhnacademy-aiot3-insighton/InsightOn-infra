@@ -45,7 +45,7 @@ if [[ -z "${SERVICE_ENV_VARS[$SERVICE_KEY]+set}" ]]; then
   exit 1
 fi
 
-read -ra REQUIRED_VARS <<< "${SERVICE_ENV_VARS[$SERVICE_KEY]}"
+IFS=' ' read -ra REQUIRED_VARS <<< "${SERVICE_ENV_VARS[$SERVICE_KEY]}"
 
 # MARK: Pre-flight checks
 
