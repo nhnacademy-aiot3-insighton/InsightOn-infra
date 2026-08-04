@@ -120,7 +120,7 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
-      KMA_KEY: ${KMA_TOKEN}
+      KMA_KEY: ${KMA_KEY}
       AIR_KEY: ${AIR_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
@@ -143,7 +143,7 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
-      KMA_KEY: ${KMA_TOKEN}
+      KMA_KEY: ${KMA_KEY}
       AIR_KEY: ${AIR_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
