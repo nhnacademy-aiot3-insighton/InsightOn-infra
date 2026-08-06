@@ -167,6 +167,8 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
     logging:
@@ -188,6 +190,8 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
     logging:

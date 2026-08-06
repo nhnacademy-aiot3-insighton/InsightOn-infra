@@ -26,6 +26,10 @@ on:
         required: true
       JWT_PUBLIC_KEY:
         required: true
+      GOOGLE_CLIENT_ID:
+        required: true
+      GOOGLE_CLIENT_SECRET:
+        required: true
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -99,5 +103,7 @@ jobs:
             export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
             export JWT_PRIVATE_KEY="${{ secrets.JWT_PRIVATE_KEY }}"
             export JWT_PUBLIC_KEY="${{ secrets.JWT_PUBLIC_KEY }}"
+            export GOOGLE_CLIENT_ID="${{ GOOGLE_CLIENT_ID }}"
+            export GOOGLE_CLIENT_SECRET="${{ GOOGLE_CLIENT_SECRET }}"
             
             ~/deploy-scripts/deploy-entrypoint.sh deploy.sh auth insighton-auth-1 insighton-auth-2
