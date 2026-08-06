@@ -30,6 +30,11 @@ on:
         required: true
       GOOGLE_CLIENT_SECRET:
         required: true
+      BREVO_SMTP_LOGIN:
+        required: true
+      BREVO_SMTP_KEY:
+        required: true
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -105,5 +110,7 @@ jobs:
             export JWT_PUBLIC_KEY="${{ secrets.JWT_PUBLIC_KEY }}"
             export GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}"
             export GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}"
+            export BREVO_SMTP_LOGIN="${{ secrets.BREVO_SMTP_LOGIN }}"
+            export BREVO_SMTP_KEY="${{ secrets.BREVO_SMTP_KEY }}"
             
             ~/deploy-scripts/deploy-entrypoint.sh deploy.sh auth insighton-auth-1 insighton-auth-2

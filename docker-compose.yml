@@ -169,6 +169,8 @@ services:
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      BREVO_SMTP_LOGIN: ${BREVO_SMTP_LOGIN}
+      BREVO_SMTP_KEY: ${BREVO_SMTP_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
     logging:
@@ -192,6 +194,8 @@ services:
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      BREVO_SMTP_LOGIN: ${BREVO_SMTP_LOGIN}
+      BREVO_SMTP_KEY: ${BREVO_SMTP_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka, insighton-config]
     logging:
