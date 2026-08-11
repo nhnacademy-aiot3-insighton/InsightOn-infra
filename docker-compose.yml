@@ -46,6 +46,7 @@ services:
       SPRING_PROFILES_ACTIVE: gateway1
       CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
       CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka]
     logging:
@@ -63,6 +64,7 @@ services:
       SPRING_PROFILES_ACTIVE: gateway2
       CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
       CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka]
     logging:
