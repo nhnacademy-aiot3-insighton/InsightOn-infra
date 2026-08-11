@@ -199,6 +199,7 @@ deploy_replica() {
     fi
 
     OLD_IMAGE_ID=$(docker inspect --format='{{.Image}}' "$name" 2>/dev/null || echo "")
+    OLD_IMAGE_NAME=$(docker inspect --format='{{.Config.Image}}' "$name" 2>/dev/null || echo "")
 
     deploy_ok=true
 
@@ -226,14 +227,13 @@ deploy_replica() {
     fi
 
     log "----- Rolling back $name to previous image -----"
-    IMAGE_NAME=$(docker compose config --images "$name" 2>/dev/null || echo "")
 
-    if [[ -z "$IMAGE_NAME" ]]; then
+    if [[ -z "$OLD_IMAGE_NAME" ]]; then
       err "Could not resolve image name for $name; rollback aborted. Manual intervention required."
       exit 1
     fi
 
-    if ! docker tag "$OLD_IMAGE_ID" "$IMAGE_NAME"; then
+    if ! docker tag "$OLD_IMAGE_ID" "$OLD_IMAGE_NAME"; then
       err "docker tag failed while attempting rollback for $name. Manual intervention required."
       exit 1
     fi
