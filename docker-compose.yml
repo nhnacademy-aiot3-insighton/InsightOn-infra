@@ -47,7 +47,7 @@ services:
       CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
       CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
-      JWT_PUBLIC_KEY_BASE64: ${JWT_PUBLIC_KEY}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka]
     logging:
@@ -66,7 +66,7 @@ services:
       CONFIG_SERVER_USERNAME: ${CONFIG_SERVER_USERNAME}
       CONFIG_SERVER_PASSWORD: ${CONFIG_SERVER_PASSWORD}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
-      JWT_PUBLIC_KEY_BASE64: ${JWT_PUBLIC_KEY}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
     restart: unless-stopped
     depends_on: [insighton-eureka]
     logging:

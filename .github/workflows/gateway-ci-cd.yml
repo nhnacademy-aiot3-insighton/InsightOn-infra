@@ -91,7 +91,7 @@ jobs:
             echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
             
             export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
-            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"\
+            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
             export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
             export JWT_PUBLIC_KEY="${{ secrets.JWT_PUBLIC_KEY }}"
             
