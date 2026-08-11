@@ -20,6 +20,11 @@ services:
       DOCKER_INFLUXDB_INIT_BUCKET: insighton-bucket
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUXDB_INIT_TOKEN}
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   influxdb-data:

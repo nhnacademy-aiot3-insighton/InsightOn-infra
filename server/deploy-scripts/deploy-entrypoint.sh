@@ -6,6 +6,7 @@ GLOBAL_LOCK="$HOME/deploy-scripts/.insighton-deploy.lock"
 INFRA_DIR="$HOME/insighton-infra"
 
 SCRIPT_NAME=$1
+shift
 
 if [ -z "$SCRIPT_NAME" ]; then
         echo "usage: $0 <deploy-script-name>"
@@ -19,6 +20,6 @@ fi
         git clone https://github.com/nhnacademy-aiot3-insighton/InsightOn-infra.git "$INFRA_DIR"
 
         chmod +x "$INFRA_DIR/scripts/$SCRIPT_NAME"
-        "$INFRA_DIR/scripts/$SCRIPT_NAME"
+        "$INFRA_DIR/scripts/$SCRIPT_NAME" "$@"
 
 ) 200>"$GLOBAL_LOCK"

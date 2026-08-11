@@ -105,6 +105,9 @@ wait_healthy() {
   local name=$1
   local status
 
+  local stable_required=5
+  local stable_count=0
+
   for ((i = 1; i <= HEALTH_MAX_ATTEMPTS; i++)); do
     status=$(docker inspect \
       --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}no-healthcheck{{end}}' \
@@ -117,17 +120,27 @@ wait_healthy() {
         ;;
       no-healthcheck)
         if [[ "$(docker inspect --format='{{.State.Running}}' "$name" 2>/dev/null)" == "true" ]]; then
-          log "  OK: $name has no healthcheck defined, but is running (attempt $i)"
-          return 0
+          ((stable_count++))
+          log "  WAIT: $name has no healthcheck defined, running $stable_count/$stable_required consecutive checks (attempt $i/$HEALTH_MAX_ATTEMPTS)"
+          if (( stable_count >= stable_required )); then
+            log "  OK: $name has no healthcheck defined, but has stayed running for $stable_count consecutive checks (attempt $i)"
+            return 0
+          fi
+        else
+          stable_count=0
+          log "  WAIT: $name has no healthcheck defined and is not running (attempt $i/$HEALTH_MAX_ATTEMPTS)"
         fi
         ;;
       unhealthy)
+        stable_count=0
         log "  WAIT: $name reported unhealthy (attempt $i/$HEALTH_MAX_ATTEMPTS)"
         ;;
       not-found)
+        stable_count=0
         log "  WAIT: $name not found yet (attempt $i/$HEALTH_MAX_ATTEMPTS)"
         ;;
       *)
+        stable_count=0
         log "  WAIT: $name status: $status (attempt $i/$HEALTH_MAX_ATTEMPTS)"
         ;;
     esac
