@@ -1,11 +1,29 @@
 name: Config CI/CD
-
 on:
   workflow_call:
     secrets:
-      MANIFEST_REPO_TOKEN:
+      SSH_HOST:
         required: true
-
+      SSH_USER:
+        required: true
+      SSH_PORT:
+        required: true
+      SSH_PRIVATE_KEY:
+        required: true
+      PAT_READ_PACKAGES:
+        required: true
+      PAT_USERNAME:
+        required: true
+      CONFIG_GITHUB_USERNAME:
+          required: true
+      CONFIG_GITHUB_TOKEN:
+          required: true
+      CONFIG_REPO_URI:
+        required: true
+      CONFIG_SERVER_USERNAME:
+        required: true
+      CONFIG_SERVER_PASSWORD:
+        required: true
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -58,19 +76,25 @@ jobs:
             ghcr.io/nhnacademy-aiot3-insighton/insighton-config:latest
             ghcr.io/nhnacademy-aiot3-insighton/insighton-config:${{ github.sha }}
 
-  update-manifest:
+  deploy:
     needs: build-and-push
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')
     runs-on: ubuntu-latest
     steps:
-      - name: Update manifest repo
-        run: |
-          git clone https://x-access-token:${{ secrets.MANIFEST_REPO_TOKEN }}@github.com/nhnacademy-aiot3-insighton/insighton-k8s-manifests.git
-          cd insighton-k8s-manifests
-          sed -i "s|image: ghcr.io/nhnacademy-aiot3-insighton/insighton-config:.*|image: ghcr.io/nhnacademy-aiot3-insighton/insighton-config:${{ github.sha }}|" infra/config/deployment.yaml
-          grep "image:" infra/config/deployment.yaml
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add infra/config/deployment.yaml
-          git diff --cached --quiet && echo "⚠️ No changes detected — check sed pattern" && exit 1
-          git commit -m "chore: update config image to ${{ github.sha }}"
-          git push
+      - name: server ssh compose rolling deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
+
+            export CONFIG_GITHUB_USERNAME="${{ secrets.CONFIG_GITHUB_USERNAME }}"
+            export CONFIG_GITHUB_TOKEN="${{ secrets.CONFIG_GITHUB_TOKEN }}"
+            export CONFIG_REPO_URI="${{ secrets.CONFIG_REPO_URI }}"
+            export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
+            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
+
+            ~/deploy-scripts/deploy-entrypoint.sh deploy.sh config insighton-config

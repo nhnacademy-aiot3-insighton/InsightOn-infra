@@ -1,32 +1,9 @@
 name: Ai CI/CD
+
 on:
   workflow_call:
     secrets:
-      SSH_HOST:
-        required: true
-      SSH_USER:
-        required: true
-      SSH_PORT:
-        required: true
-      SSH_PRIVATE_KEY:
-        required: true
-      PAT_READ_PACKAGES:
-        required: true
-      PAT_USERNAME:
-        required: true
-      CONFIG_SERVER_USERNAME:
-        required: true
-      CONFIG_SERVER_PASSWORD:
-        required: true
-      REDIS_PASSWORD:
-        required: true
-      GEMINI_API_KEY:
-        required: true
-      DB_PASSWORD:
-        required: true
-      RABBITMQ_PASSWORD:
-        required: true
-      INFLUXDB_TOKEN:
+      MANIFEST_REPO_TOKEN:
         required: true
 
 jobs:
@@ -81,27 +58,19 @@ jobs:
             ghcr.io/nhnacademy-aiot3-insighton/insighton-ai:latest
             ghcr.io/nhnacademy-aiot3-insighton/insighton-ai:${{ github.sha }}
 
-  deploy:
+  update-manifest:
     needs: build-and-push
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')
     runs-on: ubuntu-latest
     steps:
-      - name: server ssh compose rolling deploy
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "${{ secrets.PAT_READ_PACKAGES }}" | docker login ghcr.io -u ${{ secrets.PAT_USERNAME }} --password-stdin
-
-            export CONFIG_SERVER_USERNAME="${{ secrets.CONFIG_SERVER_USERNAME }}"
-            export CONFIG_SERVER_PASSWORD="${{ secrets.CONFIG_SERVER_PASSWORD }}"
-            export REDIS_PASSWORD="${{ secrets.REDIS_PASSWORD }}"
-            export GEMINI_API_KEY="${{ secrets.GEMINI_API_KEY }}"
-            export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
-            export RABBITMQ_PASSWORD="${{ secrets.RABBITMQ_PASSWORD }}"
-            export INFLUXDB_TOKEN="${{ secrets.INFLUXDB_TOKEN }}"
-            
-            ~/deploy-scripts/deploy-entrypoint.sh deploy.sh ai insighton-ai-1 insighton-ai-2
+      - name: Update manifest repo
+        run: |
+          git clone https://x-access-token:${{ secrets.MANIFEST_REPO_TOKEN }}@github.com/nhnacademy-aiot3-insighton/insighton-k8s-manifests.git
+          cd insighton-k8s-manifests
+          sed -i "s|image: ghcr.io/nhnacademy-aiot3-insighton/insighton-ai:.*|image: ghcr.io/nhnacademy-aiot3-insighton/insighton-ai:${{ github.sha }}|" infra/ai/deployment.yaml
+          grep "image:" infra/ai/deployment.yaml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add infra/ai/deployment.yaml
+          git diff --cached --quiet && echo "⚠️ No changes detected — check sed pattern" && exit 1
+          git commit -m "chore: update ai image to ${{ github.sha }}"
+          git push
