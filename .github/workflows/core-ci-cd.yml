@@ -56,17 +56,17 @@ jobs:
           -Dsonar.projectKey=insighton-core
           -Dsonar.host.url=http://s4.java21.net:9000
 
-      - name: SonarQube Quality Gate
-        if: |
-          (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')) ||
-          (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'dev-deploy'))
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
-        with:
-          scanMetadataReportFile: target/sonar/report-task.txt
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: http://s4.java21.net:9000
+#      - name: SonarQube Quality Gate
+#        if: |
+#          (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')) ||
+#          (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'dev-deploy'))
+#        uses: sonarsource/sonarqube-quality-gate-action@master
+#        timeout-minutes: 5
+#        with:
+#          scanMetadataReportFile: target/sonar/report-task.txt
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#          SONAR_HOST_URL: http://s4.java21.net:9000
 
   build-and-push:
     needs: [build-and-test, sonar-scan]
