@@ -56,14 +56,10 @@ jobs:
           -Dsonar.projectKey=insighton-ai
           -Dsonar.host.url=http://s4.java21.net:9000
 
-  sonar-quality-gate:
-    needs: sonar-scan
-    if: |
-      (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')) ||
-      (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'dev-deploy'))
-    runs-on: ubuntu-latest
-    steps:
       - name: SonarQube Quality Gate
+        if: |
+          (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')) ||
+          (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'dev-deploy'))
         uses: sonarsource/sonarqube-quality-gate-action@master
         timeout-minutes: 5
         env:
@@ -71,11 +67,11 @@ jobs:
           SONAR_HOST_URL: http://s4.java21.net:9000
 
   build-and-push:
-    needs: [build-and-test, sonar-quality-gate]
+    needs: [build-and-test, sonar-scan]
     if: |
       always() &&
       needs.build-and-test.result == 'success' &&
-      needs.sonar-quality-gate.result == 'success' &&
+      needs.sonar-scan.result == 'success' &&
       github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-deploy')
     runs-on: ubuntu-latest
     permissions:
