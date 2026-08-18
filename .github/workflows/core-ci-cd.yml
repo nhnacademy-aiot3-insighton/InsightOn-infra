@@ -48,25 +48,13 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-      - name: SonarQube Scan (branch)
-        if: github.event_name == 'push'
+      - name: SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: >
           mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           -Dsonar.projectKey=insighton-core
           -Dsonar.host.url=http://s4.java21.net:9000
-      - name: SonarQube Scan (pull request)
-        if: github.event_name == 'pull_request'
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: >
-          mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.projectKey=insighton-core
-          -Dsonar.host.url=http://s4.java21.net:9000
-          -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
-          -Dsonar.pullrequest.branch=${{ github.head_ref }}
-          -Dsonar.pullrequest.base=${{ github.base_ref }}
 
   sonar-quality-gate:
     needs: sonar-scan
