@@ -53,7 +53,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: >
           mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.projectKey=insighton-ruleengine
+          -Dsonar.projectKey=insighton-ruleEngine
           -Dsonar.host.url=http://s4.java21.net:9000
 
       - name: SonarQube Quality Gate
@@ -97,8 +97,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/nhnacademy-aiot3-insighton/insighton-ruleengine:latest
-            ghcr.io/nhnacademy-aiot3-insighton/insighton-ruleengine:${{ github.sha }}
+            ghcr.io/nhnacademy-aiot3-insighton/insighton-ruleEngine:latest
+            ghcr.io/nhnacademy-aiot3-insighton/insighton-ruleEngine:${{ github.sha }}
 
   update-manifest:
     needs: build-and-push
